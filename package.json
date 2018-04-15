@@ -1,0 +1,11 @@
+{
+  "name": "box-model",
+  "version": "0.0.1",
+  "description": "Returns the css box model for an Element",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alex Reardon <alexreardon@gmail.com>",
+  "license": "MIT"
+}
