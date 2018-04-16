@@ -1,5 +1,5 @@
 {
-  "name": "box-model",
+  "name": "css-box-model",
   "version": "0.0.1",
   "description": "Returns the css box model for an Element",
   "main": "index.js",
