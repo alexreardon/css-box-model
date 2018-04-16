@@ -31,19 +31,19 @@ export type BoxModel = {|
   paddingBox: Area,
   // content
   contentBox: Area,
-|}
+|};
 
 type Spacing = {
   top: number,
   right: number,
   bottom: number,
   left: number,
-}
+};
 
 export type Position = {|
   x: number,
   y: number,
-|}
+|};
 
 export type Area = {|
   top: number,
@@ -53,15 +53,15 @@ export type Area = {|
   width: number,
   height: number,
   center: Position,
-|}
+|};
 
 const getArea = ({ top, right, bottom, left }: Spacing): Area => ({
   top,
   right,
   bottom,
   left,
-  width: (right - left),
-  height: (bottom - top),
+  width: right - left,
+  height: bottom - top,
   center: {
     x: (right + left) / 2,
     y: (bottom + top) / 2,
@@ -121,4 +121,4 @@ export default (el: Element): BoxModel => {
     paddingBox,
     contentBox,
   };
-}
+};
