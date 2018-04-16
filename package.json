@@ -4,7 +4,7 @@
   "description": "Returns the css box model for an Element",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "yarn jest"
   },
   "author": "Alex Reardon <alexreardon@gmail.com>",
   "license": "MIT",
