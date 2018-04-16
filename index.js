@@ -45,6 +45,8 @@ export type Position = {|
 
 export type Area = {|
   ...Spacing,
+  width: number,
+  height: number,
   center: Position,
 |}
 
