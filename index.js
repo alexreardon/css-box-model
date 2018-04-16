@@ -23,11 +23,13 @@
 // | ----------------------------------|
 
 export type BoxModel = {|
-  // the borderBox with margin added (outer)
+  // content + padding + border + margin
   marginBox: Area,
-  // the element inclusive of padding and border
+  // content + padding + border
   borderBox: Area,
-  // the element without margin or padding or border (inner)
+  // content + padding
+  paddingBox: Area,
+  // content
   contentBox: Area,
 |}
 
@@ -44,13 +46,16 @@ export type Position = {|
 |}
 
 export type Area = {|
-  ...Spacing,
+  top: number,
+  right: number,
+  bottom: number,
+  left: number,
   width: number,
   height: number,
   center: Position,
 |}
 
-const getArea ({ top, right, bottom, left }: Spacing): Area => ({
+const getArea = ({ top, right, bottom, left }: Spacing): Area => ({
   top,
   right,
   bottom,
@@ -72,7 +77,7 @@ const expand = (target: Spacing, expandBy: Spacing): Spacing => ({
   right: target.right + expandBy.right,
 });
 
-export const shrink = (target: Spacing, shrinkBy: Spacing): Spacing => ({
+const shrink = (target: Spacing, shrinkBy: Spacing): Spacing => ({
   // pushing forward to descrease size
   top: target.top + shrinkBy.top,
   left: target.left + shrinkBy.left,
@@ -87,22 +92,22 @@ export default (el: Element): BoxModel => {
   const styles: Object = window.getComputedStyle(el);
 
   const margin: Spacing = {
-    top: parseInt(style.marginTop, 10),
-    right: parseInt(style.marginRight, 10),
-    bottom: parseInt(style.marginBottom, 10),
-    left: parseInt(style.marginLeft, 10),
+    top: parseInt(styles.marginTop, 10),
+    right: parseInt(styles.marginRight, 10),
+    bottom: parseInt(styles.marginBottom, 10),
+    left: parseInt(styles.marginLeft, 10),
   };
   const padding: Spacing = {
-    top: parseInt(style.paddingTop, 10),
-    right: parseInt(style.paddingRight, 10),
-    bottom: parseInt(style.paddingBottom, 10),
-    left: parseInt(style.paddingLeft, 10),
+    top: parseInt(styles.paddingTop, 10),
+    right: parseInt(styles.paddingRight, 10),
+    bottom: parseInt(styles.paddingBottom, 10),
+    left: parseInt(styles.paddingLeft, 10),
   };
   const border: Spacing = {
-    top: parseInt(style.borderTopWidth, 10),
-    right: parseInt(style.borderRightWidth, 10),
-    bottom: parseInt(style.borderBottomWidth, 10),
-    left: parseInt(style.borderLeftWidth, 10),
+    top: parseInt(styles.borderTopWidth, 10),
+    right: parseInt(styles.borderRightWidth, 10),
+    bottom: parseInt(styles.borderBottomWidth, 10),
+    left: parseInt(styles.borderLeftWidth, 10),
   };
 
   const borderBox: Area = getArea(rect);
