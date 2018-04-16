@@ -1,7 +1,7 @@
 {
   "name": "css-box-model",
   "version": "0.0.1",
-  "description": "Returns the css box model for an Element",
+  "description": "Returns the css box model for a HTMLElement",
   "main": "index.js",
   "scripts": {
     "test": "yarn jest"
