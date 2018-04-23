@@ -2,6 +2,8 @@
 
 > Get the [CSS Box Model](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model) from a [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement)
 
+The goal of this library is to make understanding the box model simple from within JavaScript
+
 ## Installation
 
 ```bash
@@ -118,7 +120,7 @@ const withScroll: BoxModel = withScroll(box, scroll);
 
 ### `calculateBox`
 
-> `(borderBox: AnyRectType, styles: CSSStyleDeclaration) => BoxModel
+> `(borderBox: AnyRectType, styles: CSSStyleDeclaration) => BoxModel`
 
 This will do the box model calculations without needing to read from the DOM. This is useful if you have already got a `ClientRect` and `CSSStyleDeclaration` as we do not need to recompute it.
 
