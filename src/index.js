@@ -137,7 +137,7 @@ export const calculateBox = (
   };
 };
 
-export default (el: Element): BoxModel => {
+export const getBox = (el: Element): BoxModel => {
   // getBoundingClientRect always returns the borderBox
   const rect: ClientRect = el.getBoundingClientRect();
   const styles: Object = window.getComputedStyle(el);

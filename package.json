@@ -4,15 +4,30 @@
   "description": "Returns the css box model for a HTMLElement",
   "main": "src/index.js",
   "scripts": {
-    "test": "yarn jest"
+    "test": "yarn jest",
+    "lint": "yarn prettier --debug-check src/** test/**",
+    "typecheck": "yarn flow",
+    "validate": "yarn lint && yarn flow",
+    "build:clean": "rimraf dist",
+    "build:flow":
+      "echo \"// @flow\n\nexport * from '../src';\" > dist/css-box-model.cjs.js.flow",
+    "build:dist": "yarn rollup --config rollup.config.js",
+    "build": "yarn build:clean && yarn build:dist && yarn build:flow",
+    "prepublishOnly": "yarn build"
   },
   "author": "Alex Reardon <alexreardon@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-flow": "^6.23.0",
     "flow-bin": "^0.69.0",
     "jest": "^22.4.3",
-    "prettier": "1.12.0"
+    "prettier": "1.12.0",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.58.1",
+    "rollup-plugin-babel": "^3.0.3"
   }
 }
