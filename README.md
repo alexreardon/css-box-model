@@ -111,18 +111,23 @@ Use `getBox` to return the box model for an element
 
 ### `withScroll`
 
-> `(original: BoxModel, scroll: Position) => BoxModel`
+> `(original: BoxModel, scroll?: Position = getWindowScroll()) => BoxModel`
 
 This is useful if you want to know the box model for an element relative to a page
 
 ```js
 const el: HTMLElement = document.getElementById('app');
 const box: BoxModel = getBox(el);
-const scroll: Position = {
+const withScroll: BoxModel = withScroll(box);
+```
+
+You are welcome to pass in your own `scroll`. By default we we use the window scroll:
+
+```js
+const getWindowScroll = (): Position => ({
   x: window.pageXOffset,
   y: window.pageYOffset,
-};
-const withScroll: BoxModel = withScroll(box, scroll);
+});
 ```
 
 ### `calculateBox`

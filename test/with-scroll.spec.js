@@ -35,16 +35,37 @@ it('should adjust for forward scroll by the desired amount', () => {
   expect(adjusted.borderBox).toEqual(expectedBorderBox);
 });
 
-it.skip('should adjust for backward scroll by the desired amount', () => {
+it('should adjust for backward scroll by the desired amount', () => {
   const scroll: Position = { x: -5, y: -4 };
   const expectedBorderBox: Rect = getRect({
     top: borderBox.top + scroll.y,
     right: borderBox.right + scroll.x,
     bottom: borderBox.bottom + scroll.y,
-    left: borderBox.top + scroll.x,
+    left: borderBox.left + scroll.x,
   });
 
   const adjusted: BoxModel = withScroll(box, scroll);
 
   expect(adjusted.borderBox).toEqual(expectedBorderBox);
+});
+
+it('should use the window scroll if none is provided', () => {
+  const scroll: Position = { x: 5, y: 4 };
+  window.pageXOffset = scroll.x;
+  window.pageYOffset = scroll.y;
+
+  const expectedBorderBox: Rect = getRect({
+    top: borderBox.top + scroll.y,
+    right: borderBox.right + scroll.x,
+    bottom: borderBox.bottom + scroll.y,
+    left: borderBox.left + scroll.x,
+  });
+
+  const adjusted: BoxModel = withScroll(box);
+
+  expect(adjusted.borderBox).toEqual(expectedBorderBox);
+
+  // cleanup
+  window.pageXOffset = 0;
+  window.pageYOffset = 0;
 });

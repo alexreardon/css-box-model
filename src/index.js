@@ -135,8 +135,15 @@ const createBox = ({ borderBox, margin, border, padding }): BoxModel => {
 // Computed styles will always be in pixels
 // https://codepen.io/alexreardon/pen/OZyqXe
 const parse = (value: string): number => parseInt(value, 10);
+const getWindowScroll = (): Position => ({
+  x: window.pageXOffset,
+  y: window.pageYOffset,
+});
 
-export const withScroll = (original: BoxModel, scroll: Position): BoxModel => {
+export const withScroll = (
+  original: BoxModel,
+  scroll?: Position = getWindowScroll(),
+): BoxModel => {
   const borderBox: Rect = getRect(shift(original.borderBox, scroll));
 
   return createBox({
