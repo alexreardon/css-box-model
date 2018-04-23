@@ -68,14 +68,17 @@ const getRect = ({ top, right, bottom, left }: Spacing): Rect => {
   const height: number = bottom - top;
 
   const rect: Rect = {
+    // ClientRect
     top,
     right,
     bottom,
     left,
     width,
     height,
+    // DOMRect
     x: top,
     y: left,
+    // Rect
     center: {
       x: (right + left) / 2,
       y: (bottom + top) / 2,
@@ -110,8 +113,6 @@ export const shift = (spacing: Spacing, point: Position): Spacing => ({
   right: spacing.right + point.x,
 });
 
-const parse = (value: string): number => parseInt(value, 10);
-
 export const withScroll = (box: BoxModel, scroll: Position): BoxModel => {
   const { margin, border, padding } = box;
   const borderBox: Rect = getRect(shift(box.borderBox, scroll));
@@ -130,10 +131,12 @@ export const withScroll = (box: BoxModel, scroll: Position): BoxModel => {
   };
 };
 
+const parse = (value: string): number => parseInt(value, 10);
+
 // Exposing this function directly for performance. If you have already computed these things
 // then you can simply pass them in
 export const calculateBox = (
-  rect: DOMRect | ClientRect,
+  borderBox: AnyRectType,
   styles: CSSStyleDeclaration,
 ): BoxModel => {
   const margin: Spacing = {
@@ -155,14 +158,13 @@ export const calculateBox = (
     left: parse(styles.borderLeftWidth),
   };
 
-  const borderBox: Rect = getRect(rect);
   const marginBox: Rect = getRect(expand(borderBox, margin));
   const paddingBox: Rect = getRect(shrink(borderBox, border));
   const contentBox: Rect = getRect(shrink(paddingBox, padding));
 
   return {
     marginBox,
-    borderBox,
+    borderBox: getRect(borderBox),
     paddingBox,
     contentBox,
     border,
@@ -173,8 +175,8 @@ export const calculateBox = (
 
 export const getBox = (el: Element): BoxModel => {
   // getBoundingClientRect always returns the borderBox
-  const rect: ClientRect = el.getBoundingClientRect();
-  const styles: Object = window.getComputedStyle(el);
+  const borderBox: ClientRect = el.getBoundingClientRect();
+  const styles: CSSStyleDeclaration = window.getComputedStyle(el);
 
-  return calculateBox(rect, styles);
+  return calculateBox(borderBox, styles);
 };
