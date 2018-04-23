@@ -1,6 +1,6 @@
 {
   "name": "css-box-model",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Returns the css box model for a HTMLElement",
   "main": "dist/css-box-model.cjs.js",
   "module": "dist/css-box-model.esm.js",
