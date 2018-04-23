@@ -54,7 +54,7 @@ export type BoxModel = {|
   margin: Spacing,
 |};
 
-export type AnyRectType = ClientRect | DOMRect | Rect;
+export type AnyRectType = ClientRect | DOMRect | Rect | Spacing;
 
 export type Spacing = {
   top: number,
@@ -76,8 +76,8 @@ export const getRect = ({ top, right, bottom, left }: Spacing): Rect => {
     width,
     height,
     // DOMRect
-    x: top,
-    y: left,
+    x: left,
+    y: top,
     // Rect
     center: {
       x: (right + left) / 2,
@@ -113,24 +113,36 @@ const shift = (spacing: Spacing, point: Position): Spacing => ({
   right: spacing.right + point.x,
 });
 
-export const withScroll = (box: BoxModel, scroll: Position): BoxModel => {
-  const { margin, border, padding } = box;
-  const borderBox: Rect = getRect(shift(box.borderBox, scroll));
+const createBox = ({ borderBox, margin, border, padding }): BoxModel => {
+  // marginBox = borderBox + margin
   const marginBox: Rect = getRect(expand(borderBox, margin));
+  // borderBox = borderBox - padding
   const paddingBox: Rect = getRect(shrink(borderBox, border));
+  // contentBox = paddingBox - padding
   const contentBox: Rect = getRect(shrink(paddingBox, padding));
 
   return {
     marginBox,
-    borderBox,
+    borderBox: getRect(borderBox),
     paddingBox,
     contentBox,
+    margin,
     border,
     padding,
-    margin,
   };
 };
 
+export const withScroll = (original: BoxModel, scroll: Position): BoxModel => {
+  const borderBox: Rect = getRect(shift(original.borderBox, scroll));
+
+  return createBox({
+    ...original,
+    borderBox,
+  });
+};
+
+// Computed styles will always be in pixels
+// https://codepen.io/alexreardon/pen/OZyqXe
 const parse = (value: string): number => parseInt(value, 10);
 
 // Exposing this function directly for performance. If you have already computed these things
@@ -158,19 +170,12 @@ export const calculateBox = (
     left: parse(styles.borderLeftWidth),
   };
 
-  const marginBox: Rect = getRect(expand(borderBox, margin));
-  const paddingBox: Rect = getRect(shrink(borderBox, border));
-  const contentBox: Rect = getRect(shrink(paddingBox, padding));
-
-  return {
-    marginBox,
-    borderBox: getRect(borderBox),
-    paddingBox,
-    contentBox,
-    border,
-    padding,
+  return createBox({
+    borderBox,
     margin,
-  };
+    padding,
+    border,
+  });
 };
 
 export const getBox = (el: Element): BoxModel => {
