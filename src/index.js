@@ -63,7 +63,7 @@ export type Spacing = {
   left: number,
 };
 
-const getRect = ({ top, right, bottom, left }: Spacing): Rect => {
+export const getRect = ({ top, right, bottom, left }: Spacing): Rect => {
   const width: number = right - left;
   const height: number = bottom - top;
 
@@ -106,7 +106,7 @@ const shrink = (target: Spacing, shrinkBy: Spacing): Spacing => ({
   right: target.right - shrinkBy.right,
 });
 
-export const shift = (spacing: Spacing, point: Position): Spacing => ({
+const shift = (spacing: Spacing, point: Position): Spacing => ({
   top: spacing.top + point.y,
   left: spacing.left + point.x,
   bottom: spacing.bottom + point.y,
