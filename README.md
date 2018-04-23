@@ -137,10 +137,8 @@ const styles: CSSStyleDeclaration = window.getComputedStyles(el);
 const box: BoxModel = calculateBox(borderBox, styles);
 ```
 
-### `AnyRectType`
+**`AnyRectType`** allows for simple interoperability with any rect type
 
 ```js
 type AnyRectType = ClientRect | DOMRect | Rect | Spacing;
 ```
-
-This allows for simple interoperability with any rect type
