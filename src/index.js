@@ -22,22 +22,39 @@
 // |                                  |
 // | ----------------------------------|
 
+export type Position = {|
+  x: number,
+  y: number,
+|};
+
+export type Rect = {|
+  top: number,
+  right: number,
+  bottom: number,
+  left: number,
+  width: number,
+  height: number,
+  x: number,
+  y: number,
+  center: Position,
+|};
+
 export type BoxModel = {|
   // content + padding + border + margin
-  marginBox: DOMRect,
+  marginBox: Rect,
   // content + padding + border
-  borderBox: DOMRect,
+  borderBox: Rect,
   // content + padding
-  paddingBox: DOMRect,
+  paddingBox: Rect,
   // content
-  contentBox: DOMRect,
+  contentBox: Rect,
   // for your own consumption
   border: Spacing,
   padding: Spacing,
   margin: Spacing,
 |};
 
-export type AnyRectType = ClientRect | DOMRect;
+export type AnyRectType = ClientRect | DOMRect | Rect;
 
 export type Spacing = {
   top: number,
@@ -46,16 +63,11 @@ export type Spacing = {
   left: number,
 };
 
-const getRect = ({ top, right, bottom, left }: Spacing): DOMRect => {
+const getRect = ({ top, right, bottom, left }: Spacing): Rect => {
   const width: number = right - left;
   const height: number = bottom - top;
 
-  // TODO: IE and edge do not support DOMRect (they support the non-standard ClientRect)
-  if (typeof DOMRect !== 'undefined') {
-    return new DOMRect(top, left, width, height);
-  }
-
-  const fake: DOMRect = {
+  const rect: Rect = {
     top,
     right,
     bottom,
@@ -64,9 +76,13 @@ const getRect = ({ top, right, bottom, left }: Spacing): DOMRect => {
     height,
     x: top,
     y: left,
+    center: {
+      x: (right + left) / 2,
+      y: (bottom + top) / 2,
+    },
   };
 
-  return fake;
+  return rect;
 };
 
 const expand = (target: Spacing, expandBy: Spacing): Spacing => ({
@@ -87,14 +103,32 @@ const shrink = (target: Spacing, shrinkBy: Spacing): Spacing => ({
   right: target.right - shrinkBy.right,
 });
 
+export const shift = (spacing: Spacing, point: Position): Spacing => ({
+  top: spacing.top + point.y,
+  left: spacing.left + point.x,
+  bottom: spacing.bottom + point.y,
+  right: spacing.right + point.x,
+});
+
 const parse = (value: string): number => parseInt(value, 10);
 
-// export const getCenter = (rect: AnyRectType): Position => {};
+export const withScroll = (box: BoxModel, scroll: Position): BoxModel => {
+  const { margin, border, padding } = box;
+  const borderBox: Rect = getRect(shift(box.borderBox, scroll));
+  const marginBox: Rect = getRect(expand(borderBox, margin));
+  const paddingBox: Rect = getRect(shrink(borderBox, border));
+  const contentBox: Rect = getRect(shrink(paddingBox, padding));
 
-// export const withScroll = (
-//   rect: AnyRectType,
-//   scroll?: Position = getWindowScroll(),
-// ): DOMRect => {};
+  return {
+    marginBox,
+    borderBox,
+    paddingBox,
+    contentBox,
+    border,
+    padding,
+    margin,
+  };
+};
 
 // Exposing this function directly for performance. If you have already computed these things
 // then you can simply pass them in
@@ -121,10 +155,10 @@ export const calculateBox = (
     left: parse(styles.borderLeftWidth),
   };
 
-  const borderBox: DOMRect = getRect(rect);
-  const marginBox: DOMRect = getRect(expand(borderBox, margin));
-  const paddingBox: DOMRect = getRect(shrink(borderBox, border));
-  const contentBox: DOMRect = getRect(shrink(paddingBox, padding));
+  const borderBox: Rect = getRect(rect);
+  const marginBox: Rect = getRect(expand(borderBox, margin));
+  const paddingBox: Rect = getRect(shrink(borderBox, border));
+  const contentBox: Rect = getRect(shrink(paddingBox, padding));
 
   return {
     marginBox,
