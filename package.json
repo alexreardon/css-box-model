@@ -1,6 +1,6 @@
 {
   "name": "css-box-model",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Returns the css box model for a HTMLElement",
   "main": "src/index.js",
   "scripts": {
