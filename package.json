@@ -1,6 +1,6 @@
 {
   "name": "css-box-model",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Returns the css box model for a HTMLElement",
   "main": "src/index.js",
   "scripts": {
@@ -9,8 +9,7 @@
     "typecheck": "yarn flow",
     "validate": "yarn lint && yarn flow",
     "build:clean": "rimraf dist",
-    "build:flow":
-      "echo \"// @flow\n\nexport * from '../src';\" > dist/css-box-model.cjs.js.flow",
+    "build:flow": "echo \"// @flow\n\nexport * from '../src';\" > dist/css-box-model.cjs.js.flow",
     "build:dist": "yarn rollup --config rollup.config.js",
     "build": "yarn build:clean && yarn build:dist && yarn build:flow",
     "prepublishOnly": "yarn build"
