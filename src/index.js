@@ -113,7 +113,19 @@ const shift = (spacing: Spacing, point: Position): Spacing => ({
   right: spacing.right + point.x,
 });
 
-const createBox = ({ borderBox, margin, border, padding }): BoxModel => {
+type CreateBoxArgs = {|
+  borderBox: AnyRectType,
+  margin: Spacing,
+  border: Spacing,
+  padding: Spacing,
+|};
+
+export const createBox = ({
+  borderBox,
+  margin,
+  border,
+  padding,
+}: CreateBoxArgs): BoxModel => {
   // marginBox = borderBox + margin
   const marginBox: Rect = getRect(expand(borderBox, margin));
   // borderBox = borderBox - padding
@@ -144,11 +156,14 @@ export const withScroll = (
   original: BoxModel,
   scroll?: Position = getWindowScroll(),
 ): BoxModel => {
-  const borderBox: Rect = getRect(shift(original.borderBox, scroll));
+  const { borderBox, border, margin, padding } = original;
+  const shifted: Spacing = shift(borderBox, scroll);
 
   return createBox({
-    ...original,
-    borderBox,
+    borderBox: shifted,
+    border,
+    margin,
+    padding,
   });
 };
 
