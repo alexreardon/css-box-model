@@ -113,18 +113,25 @@ const shift = (spacing: Spacing, point: Position): Spacing => ({
   right: spacing.right + point.x,
 });
 
+const noSpacing: Spacing = {
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0,
+};
+
 type CreateBoxArgs = {|
   borderBox: AnyRectType,
-  margin: Spacing,
-  border: Spacing,
-  padding: Spacing,
+  margin?: Spacing,
+  border?: Spacing,
+  padding?: Spacing,
 |};
 
 export const createBox = ({
   borderBox,
-  margin,
-  border,
-  padding,
+  margin = noSpacing,
+  border = noSpacing,
+  padding = noSpacing,
 }: CreateBoxArgs): BoxModel => {
   // marginBox = borderBox + margin
   const marginBox: Rect = getRect(expand(borderBox, margin));
