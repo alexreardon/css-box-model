@@ -1,14 +1,6 @@
 # CSS box model 📦
 
-> Get the [CSS Box Model](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model) from a [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement)
-
-The goal of this library is to make understanding the box model simple from within JavaScript
-
-## Installation
-
-```bash
-yarn add css-box-model
-```
+> Get the [CSS Box Model](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model) for a [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement)
 
 ## Usage
 
@@ -20,6 +12,12 @@ const el: HTMLElement = document.getElementById('foo');
 const box: BoxModel = getBox(el);
 
 // profit
+```
+
+## Installation
+
+```bash
+yarn add css-box-model
 ```
 
 ## The [CSS Box Model](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model)
@@ -72,11 +70,6 @@ export type BoxModel = {|
 
 // Supporting types
 
-export type Position = {|
-  x: number,
-  y: number,
-|};
-
 // This is an extension of DOMRect and ClientRect
 export type Rect = {|
   // ClientRect
@@ -92,6 +85,18 @@ export type Rect = {|
   // Rect
   center: Position,
 |};
+
+export type Position = {|
+  x: number,
+  y: number,
+|};
+
+export type Spacing = {
+  top: number,
+  right: number,
+  bottom: number,
+  left: number,
+};
 ```
 
 ## API
@@ -131,3 +136,11 @@ const styles: CSSStyleDeclaration = window.getComputedStyles(el);
 
 const box: BoxModel = calculateBox(borderBox, styles);
 ```
+
+### `AnyRectType`
+
+```js
+type AnyRectType = ClientRect | DOMRect | Rect | Spacing;
+```
+
+This allows for simple interoperability with any rect type
