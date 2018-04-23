@@ -132,6 +132,10 @@ const createBox = ({ borderBox, margin, border, padding }): BoxModel => {
   };
 };
 
+// Computed styles will always be in pixels
+// https://codepen.io/alexreardon/pen/OZyqXe
+const parse = (value: string): number => parseInt(value, 10);
+
 export const withScroll = (original: BoxModel, scroll: Position): BoxModel => {
   const borderBox: Rect = getRect(shift(original.borderBox, scroll));
 
@@ -140,10 +144,6 @@ export const withScroll = (original: BoxModel, scroll: Position): BoxModel => {
     borderBox,
   });
 };
-
-// Computed styles will always be in pixels
-// https://codepen.io/alexreardon/pen/OZyqXe
-const parse = (value: string): number => parseInt(value, 10);
 
 // Exposing this function directly for performance. If you have already computed these things
 // then you can simply pass them in
