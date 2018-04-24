@@ -1,6 +1,6 @@
 # CSS box model 📦
 
-> Get the [CSS Box Model](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model) for a [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement)
+> Get detailed [CSS Box Model](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model) information about a [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement)
 
 This library is useful for when you need to obtain detailed positioning information about an element. Any time you are using [`Element.getBoundingClientRect()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect) you might want to consider using `css-box-model` instead to get more detailed information.
 
