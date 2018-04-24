@@ -149,3 +149,35 @@ const box: BoxModel = calculateBox(borderBox, styles);
 ```js
 type AnyRectType = ClientRect | DOMRect | Rect | Spacing;
 ```
+
+### `createBox`
+
+> `({ borderBox, margin, border, padding }: CreateBoxArgs) => BoxModel`
+
+Allows you to create a `BoxModel` by passing in a `Rect` like shape and optionally your own `margin`, `border` and or `padding`.
+
+```js
+type CreateBoxArgs = {|
+  borderBox: AnyRectType,
+  margin?: Spacing,
+  border?: Spacing,
+  padding?: Spacing,
+|};
+```
+
+```js
+const borderBox: Spacing = {
+  top: 10,
+  right: 100,
+  left: 20,
+  bottom: 80,
+};
+const padding: Spacing = {
+  top: 10,
+  right: 20,
+  left: 20,
+  bottom: 10,
+};
+
+const box: BoxModel = createBox({ borderBox, padding });
+```
