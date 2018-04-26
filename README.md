@@ -181,3 +181,36 @@ const padding: Spacing = {
 
 const box: BoxModel = createBox({ borderBox, padding });
 ```
+
+### `getRect`
+
+> `(spacing: AnyRectType) => Rect`
+
+Given any `Rect` like shape, return a `Rect`
+
+```js
+const spacing: Spacing = {
+  top: 0,
+  right: 100,
+  bottom: 50,
+  left: 50,
+};
+
+const rect: Rect = getRect(spacing);
+
+console.log(rect);
+
+/*
+{
+  top: 0,
+  right: 100,
+  bottom: 50,
+  left: 50,
+  width: 100,
+  height: 50,
+  x: 0,
+  y: 0,
+  center: { x: 50, y: 50 },
+}
+*/
+```
