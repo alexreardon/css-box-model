@@ -9,6 +9,9 @@
     "box model",
     "DOM"
   ],
+  "files": [
+    "/dist"
+  ],
   "main": "dist/css-box-model.cjs.js",
   "module": "dist/css-box-model.esm.js",
   "sideEffects": false,
