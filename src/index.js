@@ -159,12 +159,9 @@ const getWindowScroll = (): Position => ({
   y: window.pageYOffset,
 });
 
-export const withScroll = (
-  original: BoxModel,
-  scroll?: Position = getWindowScroll(),
-): BoxModel => {
+export const offset = (original: BoxModel, change: Position): BoxModel => {
   const { borderBox, border, margin, padding } = original;
-  const shifted: Spacing = shift(borderBox, scroll);
+  const shifted: Spacing = shift(borderBox, change);
 
   return createBox({
     borderBox: shifted,
@@ -173,6 +170,11 @@ export const withScroll = (
     padding,
   });
 };
+
+export const withScroll = (
+  original: BoxModel,
+  scroll?: Position = getWindowScroll(),
+): BoxModel => offset(original, scroll);
 
 // Exposing this function directly for performance. If you have already computed these things
 // then you can simply pass them in
