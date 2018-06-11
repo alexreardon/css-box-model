@@ -48,3 +48,7 @@ it('should adjust for backward scroll by the desired amount', () => {
 
   expect(adjusted.borderBox).toEqual(expectedBorderBox);
 });
+
+it('should do nothing when shifting by the origin', () => {
+  expect(offset(box, { x: 0, y: 0 })).toEqual(box);
+});
