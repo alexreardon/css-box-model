@@ -1,4 +1,5 @@
 // @flow
+import invariant from 'tiny-invariant';
 
 // # The CSS box model
 // > https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model
@@ -88,7 +89,7 @@ export const getRect = ({ top, right, bottom, left }: Spacing): Rect => {
   return rect;
 };
 
-const expand = (target: Spacing, expandBy: Spacing): Spacing => ({
+export const expand = (target: Spacing, expandBy: Spacing): Spacing => ({
   // pulling back to increase size
   top: target.top - expandBy.top,
   left: target.left - expandBy.left,
@@ -97,20 +98,20 @@ const expand = (target: Spacing, expandBy: Spacing): Spacing => ({
   right: target.right + expandBy.right,
 });
 
-const shrink = (target: Spacing, shrinkBy: Spacing): Spacing => ({
-  // pushing forward to descrease size
+export const shrink = (target: Spacing, shrinkBy: Spacing): Spacing => ({
+  // pushing forward to decrease size
   top: target.top + shrinkBy.top,
   left: target.left + shrinkBy.left,
-  // pulling backwards to descrease size
+  // pulling backwards to decrease size
   bottom: target.bottom - shrinkBy.bottom,
   right: target.right - shrinkBy.right,
 });
 
-const shift = (spacing: Spacing, point: Position): Spacing => ({
-  top: spacing.top + point.y,
-  left: spacing.left + point.x,
-  bottom: spacing.bottom + point.y,
-  right: spacing.right + point.x,
+const shift = (target: Spacing, shiftBy: Position): Spacing => ({
+  top: target.top + shiftBy.y,
+  left: target.left + shiftBy.x,
+  bottom: target.bottom + shiftBy.y,
+  right: target.right + shiftBy.x,
 });
 
 const noSpacing: Spacing = {
@@ -151,9 +152,28 @@ export const createBox = ({
   };
 };
 
-// Computed styles will always be in pixels
+// Computed spacing styles will always be in pixels
 // https://codepen.io/alexreardon/pen/OZyqXe
-const parse = (value: string): number => parseInt(value, 10);
+const parse = (raw: string): number => {
+  const value: string = raw.slice(0, -2);
+  const suffix: string = raw.slice(-2);
+  invariant(
+    suffix === 'px',
+    `Expected value to be a pixel value.
+      Expected form: 10px
+      Actual value: ${raw}
+    `,
+  );
+
+  const result: number = Number(value);
+  invariant(
+    !isNaN(result),
+    `Could not parse value [raw: ${raw}, without suffix: ${value}]`,
+  );
+
+  return result;
+};
+
 const getWindowScroll = (): Position => ({
   x: window.pageXOffset,
   y: window.pageYOffset,

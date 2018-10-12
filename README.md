@@ -1,8 +1,15 @@
-# CSS box model 📦
+# `css-box-model` 📦
 
-> Get detailed [CSS Box Model](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model) information about a [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement)
+Get accurate and well named [CSS Box Model](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model) information about a [`Element`](https://developer.mozilla.org/en-US/docs/Web/API/Element).
 
-This library is useful for when you need to obtain detailed positioning information about an element. Any time you are using [`Element.getBoundingClientRect()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect) you might want to consider using `css-box-model` instead to get more detailed information.
+[![Build Status](https://travis-ci.org/alexreardon/css-box-model.svg?branch=master)](https://travis-ci.org/alexreardon/css-box-model)
+[![npm](https://img.shields.io/npm/v/css-box-model.svg)](https://www.npmjs.com/package/css-box-model)
+[![dependencies](https://david-dm.org/alexreardon/css-box-model.svg)](https://david-dm.org/alexreardon/css-box-model)
+[![Downloads per month](https://img.shields.io/npm/dm/css-box-model.svg)](https://www.npmjs.com/package/css-box-model)
+[![min](https://img.shields.io/bundlephobia/min/css-box-model.svg)](https://www.npmjs.com/package/css-box-model)
+[![minzip](https://img.shields.io/bundlephobia/minzip/css-box-model.svg)](https://www.npmjs.com/package/css-box-model)
+
+Any time you are using [`Element.getBoundingClientRect()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect) you might want to consider using `css-box-model` instead to get more detailed box model information.
 
 ## Usage
 
@@ -19,10 +26,16 @@ const box: BoxModel = getBox(el);
 ## Installation
 
 ```bash
+## yarn
 yarn add css-box-model
+
+# npm
+npm install css-box-model --save
 ```
 
 ## The [CSS Box Model](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model)
+
+![the box model](https://user-images.githubusercontent.com/2182637/46847224-f8a23e80-ce2e-11e8-80d6-0ca62a1871a7.png)
 
 | Box type    | Composition                         |
 | ----------- | ----------------------------------- |
@@ -30,27 +43,6 @@ yarn add css-box-model
 | Border box  | border + padding + content          |
 | Padding box | padding + content                   |
 | Content box | content                             |
-
-```
-------------------------------------
-|              MARGIN              |  (marginBox)
-|  ------------------------------  |
-|  |           BORDER           |  |  (borderBox)
-|  |  ------------------------  |  |
-|  |  |       PADDING        |  |  |  (paddingBox)
-|  |  |  ------------------  |  |  |
-|  |  |  |    CONTENT     |  |  |  |  (contentBox)
-|  |  |  |                |  |  |  |
-|  |  |  |                |  |  |  |
-|  |  |  |                |  |  |  |
-|  |  |  ------------------  |  |  |
-|  |  |                      |  |  |
-|  |  ------------------------  |  |
-|  |                            |  |
-|  ------------------------------  |
-|                                  |
-| ---------------------------------|
-```
 
 This our returned `BoxModel`:
 
@@ -134,7 +126,7 @@ const getWindowScroll = (): Position => ({
 
 > `(borderBox: AnyRectType, styles: CSSStyleDeclaration) => BoxModel`
 
-This will do the box model calculations without needing to read from the DOM. This is useful if you have already got a `ClientRect` and `CSSStyleDeclaration` as we do not need to recompute it.
+This will do the box model calculations without needing to read from the DOM. This is useful if you have already got a `ClientRect` / `DOMRect` and a `CSSStyleDeclaration` as then we can skip computing these values.
 
 ```js
 const el: HTMLElement = document.getElementById('app');
@@ -154,7 +146,7 @@ type AnyRectType = ClientRect | DOMRect | Rect | Spacing;
 
 > `({ borderBox, margin, border, padding }: CreateBoxArgs) => BoxModel`
 
-Allows you to create a `BoxModel` by passing in a `Rect` like shape and optionally your own `margin`, `border` and or `padding`.
+Allows you to create a `BoxModel` by passing in a `Rect` like shape (`AnyRectType`) and optionally your own `margin`, `border` and or `padding`.
 
 ```js
 type CreateBoxArgs = {|
@@ -182,11 +174,15 @@ const padding: Spacing = {
 const box: BoxModel = createBox({ borderBox, padding });
 ```
 
+## Utility API
+
+> Functions to help you interact with the objects we provide
+
 ### `getRect`
 
 > `(spacing: AnyRectType) => Rect`
 
-Given any `Rect` like shape, return a `Rect`
+Given any `Rect` like shape, return a `Rect`. Accepts any object that has `top`, `right`, `bottom` and `right` (eg `ClientRect`, `DOMRect`);
 
 ```js
 const spacing: Spacing = {
@@ -211,6 +207,84 @@ console.log(rect);
   x: 0,
   y: 0,
   center: { x: 50, y: 50 },
+}
+*/
+```
+
+### `expand`
+
+Used to expand a `Spacing`
+
+```js
+(target: Spacing, expandBy: Spacing) => Spacing;
+```
+
+```js
+const original: Spacing = {
+  top: 10,
+  left: 11,
+  right: 21,
+  bottom: 22,
+};
+
+const expandBy: Spacing = {
+  top: 1,
+  left: 2,
+  right: 3,
+  bottom: 4,
+};
+
+const expanded: Spacing = expand(original, expandBy);
+
+console.log(expanded);
+
+/*
+{
+  // pulled back
+  top: 8,
+  left: 8
+  // pushed forward
+  bottom: 22,
+  right: 22,
+}
+*/
+```
+
+### `shrink`
+
+Used to shrink a `Spacing`
+
+```js
+(target: Spacing, shrinkBy: Spacing) => Spacing;
+```
+
+```js
+const original: Spacing = {
+  top: 10,
+  left: 10,
+  right: 20,
+  bottom: 20,
+};
+
+const shrinkBy: Spacing = {
+  top: 2,
+  left: 2,
+  right: 2,
+  bottom: 2,
+};
+
+const smaller: Spacing = shrink(original, shrinkBy);
+
+console.log(smaller);
+
+/*
+{
+  // pushed forward
+  top: 12,
+  left: 12
+  // pulled back
+  bottom: 18,
+  right: 18,
 }
 */
 ```
