@@ -6,6 +6,26 @@ import {
   type BoxModel,
   type Spacing,
 } from '../src';
+
+export const getStyles = (
+  padding: Spacing,
+  border: Spacing,
+  margin: Spacing,
+): Object => ({
+  paddingTop: `${padding.top}px`,
+  paddingRight: `${padding.right}px`,
+  paddingBottom: `${padding.bottom}px`,
+  paddingLeft: `${padding.left}px`,
+  marginTop: `${margin.top}px`,
+  marginRight: `${margin.right}px`,
+  marginBottom: `${margin.bottom}px`,
+  marginLeft: `${margin.left}px`,
+  borderTopWidth: `${border.top}px`,
+  borderRightWidth: `${border.right}px`,
+  borderBottomWidth: `${border.bottom}px`,
+  borderLeftWidth: `${border.left}px`,
+});
+
 const top: number = 20;
 const right: number = 30;
 const bottom: number = 40;
@@ -29,23 +49,11 @@ const border: Spacing = {
   left: 12,
 };
 
-const styles: Object = {
-  paddingTop: `${padding.top}px`,
-  paddingRight: `${padding.right}px`,
-  paddingBottom: `${padding.bottom}px`,
-  paddingLeft: `${padding.left}px`,
-  marginTop: `${margin.top}px`,
-  marginRight: `${margin.right}px`,
-  marginBottom: `${margin.bottom}px`,
-  marginLeft: `${margin.left}px`,
-  borderTopWidth: `${border.top}px`,
-  borderRightWidth: `${border.right}px`,
-  borderBottomWidth: `${border.bottom}px`,
-  borderLeftWidth: `${border.left}px`,
-};
-
 const borderBox: Rect = getRect({ top, right, bottom, left });
-const box: BoxModel = calculateBox(borderBox, styles);
+const box: BoxModel = calculateBox(
+  borderBox,
+  getStyles(padding, border, margin),
+);
 
 export default {
   top,
