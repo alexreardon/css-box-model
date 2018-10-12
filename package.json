@@ -1,7 +1,7 @@
 {
   "name": "css-box-model",
   "version": "1.0.0",
-  "description": "Get accurate and well named css box model information about a Element",
+  "description": "Get accurate and well named css box model information about an Element 📦",
   "author": "Alex Reardon <alexreardon@gmail.com>",
   "license": "MIT",
   "repository": {
