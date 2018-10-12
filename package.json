@@ -4,6 +4,13 @@
   "description": "Get accurate and well named css box model information about a Element",
   "author": "Alex Reardon <alexreardon@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/atlassian/react-beautiful-dnd.git"
+  },
+  "bugs": {
+    "url": "https://github.com/atlassian/react-beautiful-dnd/issues"
+  },
   "keywords": [
     "css",
     "box model",
