@@ -9,7 +9,7 @@ Get accurate and well named [CSS Box Model](https://developer.mozilla.org/en-US/
 [![min](https://img.shields.io/bundlephobia/min/css-box-model.svg)](https://www.npmjs.com/package/css-box-model)
 [![minzip](https://img.shields.io/bundlephobia/minzip/css-box-model.svg)](https://www.npmjs.com/package/css-box-model)
 
-This library is useful for when you need to obtain detailed positioning information about an element. Any time you are using [`Element.getBoundingClientRect()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect) you might want to consider using `css-box-model` instead to get more detailed box model information.
+Any time you are using [`Element.getBoundingClientRect()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect) you might want to consider using `css-box-model` instead to get more detailed box model information.
 
 ## Usage
 
@@ -42,26 +42,7 @@ npm install css-box-model --save
 | Padding box | padding + content                   |
 | Content box | content                             |
 
-```
-------------------------------------
-|              MARGIN              |  (marginBox)
-|  ------------------------------  |
-|  |           BORDER           |  |  (borderBox)
-|  |  ------------------------  |  |
-|  |  |       PADDING        |  |  |  (paddingBox)
-|  |  |  ------------------  |  |  |
-|  |  |  |    CONTENT     |  |  |  |  (contentBox)
-|  |  |  |                |  |  |  |
-|  |  |  |                |  |  |  |
-|  |  |  |                |  |  |  |
-|  |  |  ------------------  |  |  |
-|  |  |                      |  |  |
-|  |  ------------------------  |  |
-|  |                            |  |
-|  ------------------------------  |
-|                                  |
-| ---------------------------------|
-```
+![the box model](https://user-images.githubusercontent.com/2182637/46847224-f8a23e80-ce2e-11e8-80d6-0ca62a1871a7.png)
 
 This our returned `BoxModel`:
 
