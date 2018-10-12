@@ -35,14 +35,14 @@ npm install css-box-model --save
 
 ## The [CSS Box Model](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model)
 
+![the box model](https://user-images.githubusercontent.com/2182637/46847224-f8a23e80-ce2e-11e8-80d6-0ca62a1871a7.png)
+
 | Box type    | Composition                         |
 | ----------- | ----------------------------------- |
 | Margin box  | margin + border + padding + content |
 | Border box  | border + padding + content          |
 | Padding box | padding + content                   |
 | Content box | content                             |
-
-![the box model](https://user-images.githubusercontent.com/2182637/46847224-f8a23e80-ce2e-11e8-80d6-0ca62a1871a7.png)
 
 This our returned `BoxModel`:
 
