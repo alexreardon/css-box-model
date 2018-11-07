@@ -41,17 +41,17 @@
     "prepublishOnly": "yarn build"
   },
   "devDependencies": {
-    "@babel/core": "^7.1.2",
-    "@babel/preset-env": "^7.1.0",
+    "@babel/core": "^7.1.5",
+    "@babel/preset-env": "^7.1.5",
     "@babel/preset-flow": "^7.0.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "babel-plugin-dev-expression": "^0.2.1",
-    "flow-bin": "^0.83.0",
+    "flow-bin": "^0.85.0",
     "jest": "^23.6.0",
-    "prettier": "1.14.3",
+    "prettier": "1.15.0",
     "rimraf": "^2.6.2",
-    "rollup": "^0.66.6",
+    "rollup": "^0.67.0",
     "rollup-plugin-babel": "^4.0.3",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^3.4.0",
@@ -59,6 +59,6 @@
     "rollup-plugin-uglify": "^6.0.0"
   },
   "dependencies": {
-    "tiny-invariant": "^1.0.1"
+    "tiny-invariant": "^1.0.3"
   }
 }
