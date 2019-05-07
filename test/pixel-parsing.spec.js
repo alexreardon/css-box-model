@@ -25,13 +25,17 @@ it('should parse double pixel values', () => {
   expect(box.padding).toEqual(padding);
 });
 
-it('should throw if not receiving a pixel value', () => {
+it('should return 0 if returning a non pixel value', () => {
   const styles = getStyles(mock.padding, mock.border, mock.margin);
   styles.paddingTop = '100em';
 
-  expect(() => calculateBox(mock.borderBox, styles)).toThrow(
-    'Expected value to be a pixel value',
-  );
+  const box: BoxModel = calculateBox(mock.borderBox, styles);
+
+  const expected: Spacing = {
+    ...mock.padding,
+    top: 0,
+  };
+  expect(box.padding).toEqual(expected);
 });
 
 it('should throw if receiving a malformed value', () => {

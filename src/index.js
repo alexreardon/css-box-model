@@ -157,13 +157,11 @@ export const createBox = ({
 const parse = (raw: string): number => {
   const value: string = raw.slice(0, -2);
   const suffix: string = raw.slice(-2);
-  invariant(
-    suffix === 'px',
-    `Expected value to be a pixel value.
-      Expected form: 10px
-      Actual value: ${raw}
-    `,
-  );
+
+  // This can happen in some testing environments
+  if (suffix !== 'px') {
+    return 0;
+  }
 
   const result: number = Number(value);
   invariant(
