@@ -158,7 +158,14 @@ const parse = (raw: string): number => {
   const value: string = raw.slice(0, -2);
   const suffix: string = raw.slice(-2);
 
-  // This can happen in some testing environments
+  // ## Used values vs computed values
+  // `getComputedStyle` will return the * used values * if the
+  // element has `display: none` and the *computed values* otherwise
+  // *used values* can include 'rem' etc.
+  // Rather than throwing we are returning `0`.
+  // Given that the element is _not visible_ it takes up no visible space and so `0` is correct
+  // ## `jsdom`
+  // The `raw` value can also not be populated in jsdom
   if (suffix !== 'px') {
     return 0;
   }
