@@ -28,6 +28,7 @@
   ],
   "main": "dist/css-box-model.cjs.js",
   "module": "dist/css-box-model.esm.js",
+  "types": "src/index.d.ts",
   "sideEffects": false,
   "scripts": {
     "test": "yarn jest",
