@@ -1,7 +1,6 @@
 import babel from 'rollup-plugin-babel';
-import commonjs from 'rollup-plugin-commonjs';
 import replace from 'rollup-plugin-replace';
-import { uglify } from 'rollup-plugin-uglify';
+import { terser } from 'rollup-plugin-terser';
 import resolve from 'rollup-plugin-node-resolve';
 
 const input = 'src/index.js';
@@ -41,7 +40,6 @@ export default [
       babel(),
       // used to include tiny-invariant
       resolve({ extensions }),
-      commonjs({ include: 'node_modules/**' }),
       replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
     ],
   },
@@ -57,9 +55,8 @@ export default [
       babel(),
       // used to include tiny-invariant
       resolve({ extensions }),
-      commonjs({ include: 'node_modules/**' }),
       replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
-      uglify(),
+      terser(),
     ],
   },
 ];
